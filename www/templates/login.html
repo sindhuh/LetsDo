@@ -1,0 +1,31 @@
+<ion-view class="loginpage">
+  <ion-content scroll="false">
+    <div class = "row">
+      <div class = "col text-center">
+        <div class="title">Lets DO</div>
+      </div>
+    </div>
+    <div class="loginButtonsOuterContainer">
+      <div class = "loginButtonsContainer">
+        <div class="padding-bottom text-center">
+          <button ng-click="loginWithProvider('google')" class="button button-light icon-left ion-social-googleplus">
+            <span>Log in with Google</span>
+          </button>
+        </div>
+        <div class="padding-bottom text-center">
+          <button ng-click="loginWithProvider('facebook')" class="button button-light icon-left ion-social-facebook" ua-oauth-link="facebook">
+            <span>Log in with Facebook</span>
+          </button>
+        </div>
+        <div class="padding-bottom text-center">
+          <button class="button-small button button-positive">
+            <span>Login</span>
+          </button>
+          <button class="button-small button button-positive">
+            <span>Sign Up</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,65 @@
+.loginpage .scroll-content {
+    background: url("../img/loginPage.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+}
+
+.loginpage .title {
+    color: white;
+    font-size: 42px;
+    font-weight: bold;
+    text-shadow: 1px 0px 6px rgba(150, 150, 150, 1);
+    margin-top: 20%;
+    font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+}
+
+.loginpage .loginButtonsOuterContainer {
+    position: fixed;
+    bottom: 10%;
+    width: 100%;
+}
+
+.loginpage .loginButtonsContainer {
+    margin: auto;
+}
+
+.button.ion-social-facebook {
+    background-color: #3b5998;
+    color: white;
+    border: 0;
+}
+
+.button.ion-social-facebook:hover {
+    background-color: #3b5998;
+    color: white;
+}
+
+.button.ion-social-googleplus {
+    background-color: #d34836;
+    color: white;
+    border: 0;
+}
+
+.button.ion-social-googleplus:hover {
+    background-color: #d34836;
+    color: white;
+}
+.button.assertive {
+    background: #ef473a;
+    color:white ;
+    z-index: 2 ;
+    position: absolute;
+    bottom: 5% ;
+    right: 5%;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.button.assertive.ion-plus{
+    border-radius: 50%;
+}
+
+.button.assertive.ion-plus:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+    color: #fff;
+}

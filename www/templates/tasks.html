@@ -1,0 +1,12 @@
+
+<ion-view view-title="Tasks">
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="item in items" href="#/app/tasks/{{item.$id}}">
+                <div ng-model="item.message">{{item.message}}</div>
+                <ion-option-button ng-click="archiveItem(item)" class="button-assertive icon ion-trash-a"></ion-option-button>
+                <ion-option-button ng-click="showEditTask(item)" class="button-assertive icon ion-edit"></ion-option-button>            </ion-item>
+        </ion-list>
+    </ion-content>
+    <button class="button assertive icon test ion-plus" ng-click="showEditTask();"></button>
+</ion-view>

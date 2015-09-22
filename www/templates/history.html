@@ -1,0 +1,10 @@
+<ion-view view-title="History">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="item in finishedItems">
+        <div ng-model="item.message">{{item.message}}</div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  <button class="button icon assertive test button-small" ng-click="clearAll();">Clear All</button>
+</ion-view>
