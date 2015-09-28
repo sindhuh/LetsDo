@@ -1,4 +1,4 @@
-var app = angular.module('starter.controllers', ['starter.factories']);
+var app = angular.module('starter.controllers', ['starter.factories', 'angularMoment', 'ngCordova']);
 var ITEMS_ARCHIVED_EVENT = 'itemsArchived';
 var usersRef = new Firebase(FIREBASE_URL + "/users");
 app.controller('LoginController', function ($scope, $state, Auth) {
@@ -17,7 +17,7 @@ app.controller('LoginController', function ($scope, $state, Auth) {
                     name: getName(authData)
                 });
             }
-            $state.go('app.tasks');
+            $state.go('app.index');
         } else {
             isNewUser = true;
         }
@@ -30,9 +30,8 @@ app.controller('LoginController', function ($scope, $state, Auth) {
         });
     };
 });
-app.controller('MenuController',  function($scope, $state, $ionicSideMenuDelegate , Auth){
-    $scope.providerName = Auth.$getAuth().provider;
-    $scope.username = Auth.$getAuth()[$scope.providerName].displayName;
+app.controller('MenuController',  function($scope, $state, $ionicSideMenuDelegate, Auth){
+    $scope.username = getDisplayNameFromAuth(Auth.$getAuth());
     $scope.$on('$ionicView.enter', function(){
         $ionicSideMenuDelegate.canDragContent(false);
     });
@@ -48,55 +47,94 @@ app.controller('HistoryController',function($rootScope, $scope, Auth, UserFinish
     $scope.authUser = Auth.$getAuth();
     $scope.finishedItems = UserFinishedTasks($scope.authUser.uid);
     $scope.clearAll = function(){
-       // finishedItemsRef.remove();
-        console.log(">>>> "+UserFinishedTasks($scope.authUser.uid).length);
+        console.log(">>>> " +UserFinishedTasks($scope.authUser.uid).length);
     }
 });
-app.controller('ToDoListActiveController', function ($rootScope, $scope, $ionicModal, Auth, UserTasks,UserFinishedTasks,$ionicListDelegate) {
+app.controller('TaskController', function($scope, $state, $stateParams, $ionicHistory,
+                                          UserTask, UserTasks, Auth, $cordovaDatePicker, $interval,
+                                          $ionicListDelegate) {
+
+    $scope.authUser = Auth.$getAuth();
+    $scope.isNewTask = $stateParams.taskId == 'new';
+    $scope.username = getDisplayNameFromAuth(Auth.$getAuth()).split(" ").shift();
+    var ownerId = $stateParams.ownerId;
+    if (!ownerId) {
+        ownerId = $scope.authUser.uid;
+    }
+    $scope.setTimer = function(task){
+        if(task.dueDate == 0){
+
+        } else {
+            $scope.dueTime = task.dueDate - (new Date().getTime());
+            var timer = $interval( function(){
+                if($scope.dueTime == 0){
+                    $interval.cancel(timer);
+                }
+                $scope.dueTime = $scope.dueTime - 1000;
+            }, 1000);
+        }
+    };
+    if ($scope.isNewTask) {
+        var createdDate = new  Date();
+        $scope.task = {
+            ownerId: ownerId,
+            ownerName: getDisplayNameFromAuth(Auth.$getAuth()),
+            createdAt: createdDate.getTime(),
+            dueDate : 0
+        }
+    } else {
+        $scope.task = UserTask(ownerId, $stateParams.taskId);
+        $scope.setTimer($scope.task);
+    }
+    $scope.saveTask = function (task) {
+        function failureCallback(error) {
+            // TODO Show error.
+        }
+        if ( task == undefined || task.message.trim() == '') {
+            failureCallback();
+            return;
+        }
+        function successCallback(ref) {
+            $ionicHistory.goBack();
+        }
+        if (!task.$id) {
+            var tasks = UserTasks(ownerId);
+            tasks.$add(task).then(successCallback).catch(failureCallback);
+        } else {
+            task.$save().then(successCallback).catch(failureCallback);
+        }
+    };
+    $scope.dateReminder =function(task) {
+            $cordovaDatePicker.show(getDateOptions('date')).then(function (date) {
+                var reminderDate = moment(date).format("ddd MMM D YYYY");
+                $scope.timeReminder(task, reminderDate);
+            });
+    };
+    $scope.timeReminder = function(task, reminderDate) {
+            $cordovaDatePicker.show(getDateOptions('time')).then(function (date) {
+                var reminderTime = moment(date).format("HH:mm:ss");
+                task.dueDate = moment(reminderDate + " " +reminderTime).toDate().getTime();
+                task.$save().then(function(){
+                }).catch(function(){
+                    $scope.setTimer(task);
+                })
+            });
+    };
+});
+app.controller('ToDoListActiveController', function ($rootScope, $state , $scope,
+                                                     $ionicModal, Auth, UserTasks,
+                                                     UserFinishedTasks, $ionicListDelegate) {
     $scope.authUser = Auth.$getAuth();
     $scope.items = UserTasks($scope.authUser.uid);
     $scope.finishedItems = UserFinishedTasks($scope.authUser.uid);
-
-
-    $scope.showEditTask = function (item) {
-        $scope.isNewTask = item == undefined;
-        $scope.task = item ? item : {} ;
-        $scope.modal.show();
-    };
-
-    $scope.addTask = function (task) {
-        if (task.message.trim() == '') {
-            // TODO Show error.
-            return;
-        }
-        $scope.items.$add({message: task.message}).then(function(ref) {
-            console.log(">> Successfully saved a message ", ref.key(), ref.$id);
-            task.message = '';
-            $scope.closeNewTask();
-        }).catch(function(error) {
-            // TODO show error on the modal itself.
-        });
-    };
-
-    $scope.updateTask = function (item) {
-        $scope.items.$save(item).then(function(ref) {
-            if (ref.key() == item.$id) {
-                console.log(">> Successfully updated ", ref.key());
-                $scope.closeNewTask();
-                $ionicListDelegate.closeOptionButtons();
-            }
-        }).catch(function(error) {
-        });
-    };
 
     $scope.archiveItem = function (item) {
         if (!item) {
             return;
         }
-        console.log(item.$id);
+
         $scope.finishedItems.$add({message: item.message}).then(function(ref) {
             console.log(">> Successfully saved a message to finished Items ", ref.key(), ref.$id);
-            $scope.closeNewTask();
         }).catch(function(error) {
             // TODO show error on the modal itself.
         });
@@ -109,22 +147,6 @@ app.controller('ToDoListActiveController', function ($rootScope, $scope, $ionicM
         }).catch(function (error) {
         });
     };
-
-    $ionicModal.fromTemplateUrl('new-task.html', {
-        scope: $scope,
-        animation: 'slide-in-down',
-        focusFirstInput: true
-    }).then(function (modal) {
-        $scope.modal = modal;
-    });
-
-    $scope.closeNewTask = function () {
-        $scope.modal.hide();
-    };
-
-    $scope.$on('$destroy', function () {
-        $scope.modal.remove();
-    });
 });
 
 

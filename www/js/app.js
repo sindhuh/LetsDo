@@ -30,8 +30,8 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'firebase'])
                 abstract: true,
                 templateUrl: 'templates/menu.html',
                 controller : 'MenuController'
-            }).state('app.tasks', {
-                url: '/tasks',
+            }).state('app.index', {
+                url: '',
                 views: {
                     'menuContent': {
                         templateUrl: 'templates/tasks.html',
@@ -47,19 +47,20 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'firebase'])
                     }
                 }
             }).state('app.friends', {
-            url: '/friends',
-            views: {
-                'menuContent': {
-                    templateUrl: 'templates/friends.html',
+                url: '/friends',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'templates/friends.html',
+                    }
                 }
-            }
-        }).state('app.single', {
-                url: '/tasks/:taskId',
+            }).state('app.task', {
+                url: '/owner/:ownerId/task/:taskId/',
                 views: {
                     'menuContent': {
                         templateUrl: 'templates/task.html',
+                        controller: 'TaskController'
                     }
                 }
             });
-        //$urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/login');
     });

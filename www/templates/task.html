@@ -1,5 +1,33 @@
-<ion-view view-title="Task">
-  <ion-content>
-    <h1></h1>
-  </ion-content>
+<ion-view>
+    <ion-nav-title>
+        {{isNewTask ? "Compose Task" : "Edit task"}}
+    </ion-nav-title>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-information-circled">
+        </button>
+    </ion-nav-buttons>
+    <ion-header-bar class="bar-assertive">
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="saveTask(task)">
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <input type="text" ng-model="task.message" placeholder="Add your to do here!"/>
+                </label>
+            </div>
+        </form>
+        <div class="padding-left padding-top">
+            Created By {{username}}
+            <span am-time-ago="task.createdAt"></span>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap color">
+                <b> No due date set yet! </b>
+                <div><b>Time Remaining : {{ dueTime | amDurationFormat : 'milliseconds'}}</b></div>
+                <div class="text-center padding">
+                    <button ng-click="dateReminder(task)" class="button button-stable">Add a due date!</button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
 </ion-view>

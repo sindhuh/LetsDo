@@ -9,14 +9,39 @@ app.factory("Auth", ["$firebaseAuth",
     }
 ]);
 app.factory("UserTasks", function ($firebaseArray) {
+    var activeRefs = {};
     return function (userId) {
-        var itemsRef = new Firebase(FIREBASE_URL + "/"  + userId + "/tasks");
-        return $firebaseArray(itemsRef);
+        var fireBaseArray = activeRefs[userId];
+        if (!fireBaseArray) {
+            var itemsRef = new Firebase(FIREBASE_URL + "/"  + userId + "/tasks");
+            fireBaseArray = $firebaseArray(itemsRef);
+            activeRefs[userId] = fireBaseArray;
+        }
+        return fireBaseArray;
+    }
+});
+app.factory("UserTask", function ($firebaseObject) {
+    var activeRefs = {};
+    return function (ownerId, taskId) {
+        var uniqueId = ownerId + "#" + taskId;
+        var fireBaseObj = activeRefs[uniqueId];
+        if (!fireBaseObj) {
+            var itemRef = new Firebase(FIREBASE_URL + "/"  + ownerId + "/tasks/" + taskId);
+            fireBaseObj = $firebaseObject(itemRef);
+            activeRefs[uniqueId] = fireBaseObj;
+        }
+        return fireBaseObj;
     }
 });
 app.factory("UserFinishedTasks", function ($firebaseArray) {
+    var activeRefs = {};
     return function (userId) {
-        var finishedItemsRef = new Firebase(FIREBASE_URL + "/"  + userId + "/archived");
-        return $firebaseArray(finishedItemsRef);
+        var fireBaseArray = activeRefs[userId];
+        if (!fireBaseArray) {
+            var itemsRef = new Firebase(FIREBASE_URL + "/"  + userId + "/archived");
+            fireBaseArray = $firebaseArray(itemsRef);
+            activeRefs[userId] = fireBaseArray;
+        }
+        return fireBaseArray;
     }
 });
