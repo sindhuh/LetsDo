@@ -9,7 +9,7 @@ Lets do app is reminder application
 <img src="https://cloud.githubusercontent.com/assets/12206972/13558680/0e128418-e3be-11e5-9dd9-5bfad66e18b4.png" width="150px" height="200px" />
 <img src="https://cloud.githubusercontent.com/assets/12206972/13558691/27d89450-e3be-11e5-8567-434922cdc25f.png" width="150px" height="200px" />
 <img src="https://cloud.githubusercontent.com/assets/12206972/13558734/ae42baa2-e3be-11e5-9ea9-79cb05e2df31.png" width="150px" height="200px" />
-<img src="https://cloud.githubusercontent.com/assets/12206972/13558738/bf054bb6-e3be-11e5-9fc4-f3135ea8f905.png" width="150px" height="200px" />
+<img src="https://cloud.githubusercontent.com/assets/12206972/13558755/0a99b242-e3bf-11e5-813d-7633b7ff25a8.png" width="150px" height="200px" />
 <img src="https://cloud.githubusercontent.com/assets/12206972/13558747/e1fc59b6-e3be-11e5-938b-d7a439667f8b.png" width="150px" height="200px" />
 
 
