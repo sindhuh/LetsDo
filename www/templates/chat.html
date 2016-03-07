@@ -1,0 +1,21 @@
+<ion-view>
+    <ion-nav-title>
+        {{friendName}}
+    </ion-nav-title>
+    <ion-content>
+        <div ng-repeat="message in messagesFriend">
+            {{message.owner}} :
+            {{message.message}}
+        </div>
+    </ion-content>
+    <form ng-submit="addMessage(message)">
+        <ion-footer-bar class="bar-stable item-input-inset">
+            <label class="item-input-wrapper">
+                <input type="text" placeholder="Type your message" ng-model="message.message"/>
+            </label>
+            <button class="button button-positive" type="submit">
+                Send
+            </button>
+        </ion-footer-bar>
+    </form>
+</ion-view>

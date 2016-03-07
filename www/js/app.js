@@ -1,12 +1,6 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers' , 'firebase'])
-    .run(function($ionicPlatform) {
-        $ionicPlatform.ready(function() {
+angular.module('starter', ['ionic', 'starter.controllers', 'firebase'])
+    .run(function ($ionicPlatform) {
+        $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if (window.cordova && window.cordova.plugins.Keyboard) {
@@ -20,45 +14,62 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'firebase'])
             }
         });
     })
-    .config(function($stateProvider, $urlRouterProvider) {
-        $stateProvider.state('login',{
-                url:'/login',
-                templateUrl:'templates/login.html',
-                controller:'LoginController'
-            }).state('app', {
-                url: '/app',
-                abstract: true,
-                templateUrl: 'templates/menu.html',
-                controller : 'MenuController'
-            }).state('app.index', {
-                url: '',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/tasks.html',
-                        controller: 'ToDoListActiveController'
-                    }
+    .config(function ($stateProvider, $urlRouterProvider) {
+        $stateProvider.state('login', {
+            url: '/login',
+            templateUrl: 'templates/login.html',
+            controller: 'LoginController'
+        }).state('app', {
+            url: '/app',
+            abstract: true,
+            templateUrl: 'templates/menu.html',
+            controller: 'MenuController'
+        }).state('app.index', {
+            url: '/index',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/tasks.html',
+                    controller: 'ToDoListActiveController'
                 }
-            }).state('app.history', {
-                url: '/history',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/history.html',
-                        controller: 'HistoryController'
-                    }
+            }
+        }).state('app.history', {
+            url: '/history',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/history.html',
+                    controller: 'HistoryController'
                 }
-            }).state('app.friends', {
-                url: '/friends',
-                views: {
-                    'menuContent': {
-                        templateUrl: 'templates/friends.html',
-                    }
+            }
+        }).state('app.friends', {
+            url: '/friends',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/friends.html',
+                    controller: 'FriendsController'
                 }
-            }).state('app.task', {
-                url: '/owner/:ownerId/task/:taskId/',
+            }
+        }).state('app.task', {
+            url: '/owner/:ownerId/task/:taskId/',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/task.html',
+                    controller: 'TaskController'
+                }
+            }
+        }).state('app.map', {
+            url: '/map',
+            views: {
+                'menuContent': {
+                    templateUrl: 'templates/map.html',
+                    controller: 'MapController'
+                }
+            }
+        }).state('app.chat', {
+                url: '/owner/:friendName/friendId/:friendId',
                 views: {
                     'menuContent': {
-                        templateUrl: 'templates/task.html',
-                        controller: 'TaskController'
+                        templateUrl: 'templates/chat.html',
+                        controller: 'ChatController'
                     }
                 }
             });

@@ -8,10 +8,11 @@
       Team LetsDo
     </author>
   <content src="index.html"/>
-  <access origin="*"/>
+  <plugin name="de.appplant.cordova.plugin.local-notification" />
+  <access origin="*" subdomains="true"/>
   <allow-intent href="*.firebaseio.com" />
   <allow-intent href="auth.firebase.com" />
-
+  <allow-navigation href="*" />
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
   <preference name="DisallowOverscroll" value="true"/>
@@ -19,11 +20,10 @@
   <preference name="BackupWebStorage" value="none"/>
   <preference name="SplashScreen" value="screen"/>
   <preference name="SplashScreenDelay" value="1000"/>
-  
+
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
-
   <platform name="android">
     <icon src="resources/android/icon/drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/drawable-mdpi-icon.png" density="mdpi"/>

@@ -1,33 +1,53 @@
-<ion-view>
-    <ion-nav-title>
-        {{isNewTask ? "Compose Task" : "Edit task"}}
-    </ion-nav-title>
-    <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-information-circled">
-        </button>
-    </ion-nav-buttons>
-    <ion-header-bar class="bar-assertive">
-    </ion-header-bar>
-    <ion-content>
-        <form ng-submit="saveTask(task)">
-            <div class="list list-inset">
-                <label class="item item-input">
-                    <input type="text" ng-model="task.message" placeholder="Add your to do here!"/>
-                </label>
-            </div>
-        </form>
-        <div class="padding-left padding-top">
-            Created By {{username}}
-            <span am-time-ago="task.createdAt"></span>
+<ion-view xmlns="http://www.w3.org/1999/html">
+  <ion-nav-title>
+    {{isNewTask ? "Compose Task" : "Edit task"}}
+  </ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-information-circled">
+    </button>
+  </ion-nav-buttons>
+  <ion-header-bar class="bar-assertive">
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="saveTask(task)">
+      <div class="list list-inset">
+        <label class="item item-input">
+          <input type="text" ng-model="task.message" placeholder="Add your to do here!"/>
+        </label>
+      </div>
+    </form>
+    <div class="padding-left padding-top">
+      Created By {{firstName}}
+      <span am-time-ago="task.createdAt"></span>
+    </div>
+    <div class="card">
+      <div class="timer item item-text-wrap color">
+        <div ng-show="!timerHide"> No due date set yet!</div>
+        <div class="padding-bottom">
+          <span ng-show="timerHide">Due by</span>
+          <span ng-show="timerHide" style="float: right">{{date}}</span>
         </div>
-        <div class="card">
-            <div class="item item-text-wrap color">
-                <b> No due date set yet! </b>
-                <div><b>Time Remaining : {{ dueTime | amDurationFormat : 'milliseconds'}}</b></div>
-                <div class="text-center padding">
-                    <button ng-click="dateReminder(task)" class="button button-stable">Add a due date!</button>
-                </div>
-            </div>
+        <div ng-show="timerHide" style="color: brown" class="padding-top text-center"
+             ng-click="dateReminder(task)">{{ dueInterval | amDurationFormat : 'milliseconds'}} remaining
         </div>
-    </ion-content>
+        <div class="text-center padding">
+          <button ng-show="!timerHide" ng-click="dateReminder(task)" class="button button-stable">Add a due
+            date!
+          </button>
+        </div>
+        <div class="text-center">
+          <button ng-show="timerHide" ng-click="cancelTimer(task)" class="button button-stable">Cancel
+          </button>
+        </div>
+        <div class="text-center">
+                <span ng-repeat="day in dayNames">
+                    <button class="button button-small" ng-class="{'activeButton': isActive}"
+                            ng-click="selectButton(day, task, $index)"> {{day.name}}
+                    </button>
+                </span>
+        </div>
+      </div>
+      </div>
+    <div class="button button-full button-assertive" ng-click="mapSearch()">remind me at location</div>
+  </ion-content>
 </ion-view>

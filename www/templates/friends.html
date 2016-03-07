@@ -1,5 +1,11 @@
-<ion-view view-title="Playlist">
+<ion-view view-title="Friends">
     <ion-content>
-        <h1>Friends</h1>
+        <ion-list>
+            <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="friend in friendsList" type="item-text-wrap"
+                      ui-sref="app.chat({friendName : friend.name, friendId : friend.$id})">
+                <div ng-model="friend.name">{{friend.name}}</div>
+                <i class="icon ion-chevron-right icon-accessory"></i>
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

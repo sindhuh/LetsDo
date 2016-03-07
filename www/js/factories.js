@@ -1,6 +1,4 @@
-/**
- * Created by sindhu on 9/20/15.
- */
+
 var app = angular.module('starter.factories', ["firebase"]);
 app.factory("Auth", ["$firebaseAuth",
     function($firebaseAuth) {
@@ -31,6 +29,40 @@ app.factory("UserTask", function ($firebaseObject) {
             activeRefs[uniqueId] = fireBaseObj;
         }
         return fireBaseObj;
+    }
+});
+app.factory("repeatDays" , function($firebaseObject) {
+    return function(ownerId, taskId) {
+        var itemRef = new Firebase(FIREBASE_URL + "/" + ownerId + "/tasks/" +taskId);
+        return $firebaseObject(itemRef);
+    }
+});
+app.factory("FriendsList", function($firebaseArray) {
+    var activeRefs = {};
+    return function(userId){
+        var fireBaseArray = activeRefs[userId]
+        if(!fireBaseArray) {
+            var friendsRef = new Firebase(FIREBASE_URL + "/" + userId + "/friends");
+            fireBaseArray = $firebaseArray(friendsRef);
+            activeRefs[userId] = fireBaseArray;
+        }
+        console.log(fireBaseArray);
+        return fireBaseArray;
+    }
+});
+app.factory("ChatMessages2",function($firebaseArray){
+    return function(friendId, userId){
+        console.log("friendId: " ,friendId , userId)
+        var user = userId.split(":").pop();
+        var friendRef = new Firebase(FIREBASE_URL + "/facebook:"+friendId + "/friends/" +user);
+        return $firebaseArray(friendRef);
+    }
+});
+app.factory("ChatMessages", function($firebaseArray){
+    return function(userId, friendId){
+
+        var friendRef = new  Firebase(FIREBASE_URL + "/" +userId +"/friends/" +friendId);
+        return $firebaseArray(friendRef);
     }
 });
 app.factory("UserFinishedTasks", function ($firebaseArray) {
