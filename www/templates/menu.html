@@ -19,13 +19,13 @@
     <ion-content>
       <ion-list>
         <ion-item menu-close href="#/app/tasks">
-          Tasks
+          <i class="icon ion-thumbsup">Tasks</i>
         </ion-item>
         <ion-item menu-close href="#/app/history">
-          History
+          <i class="icon ion-trash-a">History</i>
         </ion-item>
-        <ion-item menu-close href="#/app/friends">
-          Friends
+        <ion-item menu-close  href="#/app/friends">
+          <i class="icon ion-person-stalker">Friends</i>
         </ion-item>
       </ion-list>
     </ion-content>
@@ -36,23 +36,3 @@
     </ion-footer-bar>
   </ion-side-menu>
 </ion-side-menus>
-<script id="new-task.html" type="text/ng-template">
-  <div class="modal">
-    <ion-header-bar class="bar-assertive">
-      <div class="title">{{isNewTask ? "Add a new Task" : "Edit task"}}</div>
-      <button class="button button-clear button-assertive icon ion-close" ng-click="closeNewTask()"></button>
-    </ion-header-bar>
-    <ion-content>
-      <form ng-submit="isNewTask ? addTask(task) : updateTask(task)">
-        <div class="list">
-          <label class="item item-input">
-            <input type="text" ng-model="task.message" placeholder="Add your to do here!" >
-          </label>
-        </div>
-        <div class="padding">
-          <button type="submit" class="button button-block button-small button-assertive">Done</button>
-        </div>
-      </form>
-    </ion-content>
-  </div>
-</script>
